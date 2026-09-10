@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamppu</title>
+</head>
+<body>
+
+    <h1 id="tilan-naytto">Lampun tila: ⬛</h1>
+    <p><button onclick="kytkin()">Kytkin</button></p>
+
+    <script>
+        class Lamppu {
+            constructor() {
+                this.tila = "Pois päältä";
+            }
+
+            sytyta(){
+                this.tila = "Päällä";
+            }
+
+            sammuta(){
+                this.tila = "Pois päältä";
+            }
+        }
+
+        const lamppu = new Lamppu();
+
+        function kytkin(){
+            if (lamppu.tila === "Pois päältä"){
+                lamppu.sytyta();
+            } else {
+                lamppu.sammuta();
+            }
+            
+            let emoji = (lamppu.tila === "Päällä") ? "💡" : "⬛";
+
+            document.getElementById("tilan-naytto").innerHTML = "Lampun tila: " + emoji;
+        } 
+    </script>
+</body>
+</html>
