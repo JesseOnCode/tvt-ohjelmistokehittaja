@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuotteen lisääminen</title>
+</head>
+
+<body>
+    Nimi: <input type="text" id="nimi">
+    Hinta: <input type="number" id="hinta">
+    <button onclick="lisaaTuote()">Lisää tuote</button>
+    
+    <div id="tuoteLista">-</div>
+    <div id="yhteensa">0</div>
+
+    <script>
+        class Tuote {
+            constructor(nimi, hinta) {
+                this.nimi = nimi;
+                this.hinta = parseFloat(hinta) || 0;
+            }
+
+            tulosta() {
+                return `<p><strong>Tuotteen nimi:</strong> ${this.nimi} | 
+                        <strong>Hinta:</strong> ${this.hinta}</p>`;
+            }
+        }
+        
+        const tuoteLista = [];
+
+        function lisaaTuote() {
+            const nimi = document.getElementById("nimi").value;
+            const hinta = document.getElementById("hinta").value;
+            
+            if (!nimi || !hinta) {
+                return;
+            }
+
+            const tuote = new Tuote(nimi, hinta);
+
+            tuoteLista.push(tuote);
+
+            let tulostus = "";
+
+            for (let i = 0; i < tuoteLista.length; i++) {
+                tulostus += tuoteLista[i].tulosta();
+            }
+
+            document.getElementById("tuoteLista").innerHTML = tulostus;
+            laskeHinnat();
+        }
+
+        function laskeHinnat() {
+            let summa = 0;
+            for (let i = 0; i < tuoteLista.length; i++) {
+                summa += tuoteLista[i].hinta;
+            }
+            document.getElementById("yhteensa").innerHTML = "<strong>Yhteensä:</strong> " + summa + " €"
+        }
+    </script>
+</body>
+</html>
