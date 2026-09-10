@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opiskelija</title>
+    <style>
+        table {
+            width: 80%;
+            margin-top: 20px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid black;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    Nimi: <input type="text" id="name">
+    Ikä: <input type="number" id="age">
+    Kurssi: <input type="text" id="course">
+    Arvosana: <input type="number" id="grade"> 
+
+    <button onclick="addStudent()">Tulosta tiedot</button>
+    
+    <h1>Opiskelijalista</h1>
+    <table id="opiskelijaTaulukko">
+        <tr>
+            <th>Nimi</th>
+            <th>Ikä</th>
+            <th>Kurssi</th>
+            <th>Arvosana</th>
+        </tr>
+    </table>
+
+    <script>
+        class Student {
+            constructor(name, age, course, grade) {
+                this.name = name;
+                this.age = age;
+                this.course = course;
+                this.grade = parseInt(grade);
+            }
+
+            printRow() {
+                let naytettavaArvosana = isNaN(this.grade) ? "Virhe" : this.grade;
+                return `<tr>
+                            <td>${this.name}</td>
+                            <td>${this.age}</td>
+                            <td>${this.course}</td>
+                            <td>${naytettavaArvosana} (${this.printGrade()})</td>
+                        </tr>`;
+            }
+
+            printGrade() {
+                if (this.grade === 1) {
+                    return "Hylätty";
+                } else if (this.grade === 2) {
+                    return "Hyväksytty";
+                } else if (this.grade === 3) {
+                    return "Hyvä";
+                } else if (this.grade === 4) {
+                    return "Erittäin hyvä"; 
+                } else if (this.grade === 5) {
+                    return "Erinomainen";
+                }
+                return "Virhe";
+            }
+        }
+
+        const studentList = [];
+
+        function addStudent() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const course = document.getElementById("course").value;
+            const grade = document.getElementById("grade").value;
+
+            const student = new Student(name, age, course, grade);
+            studentList.push(student);
+
+            let taulukonSisalto = `<tr>
+                                    <th>Nimi</th>
+                                    <th>Ikä</th>
+                                    <th>Kurssi</th>
+                                    <th>Arvosana</th>
+                                   </tr>`;
+
+            for (let i = 0; i < studentList.length; i++) {
+                taulukonSisalto += studentList[i].printRow();
+            }
+
+            document.getElementById("opiskelijaTaulukko").innerHTML = taulukonSisalto;
+
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("course").value = "";
+            document.getElementById("grade").value = "";
+        }
+    </script>
+</body>
+</html>
